@@ -4,6 +4,10 @@ from notion.client import NotionClient
 from creds import NOTION, TWITTER
 
 
+def get_tweet_id_from_url(tweet_url):
+    return tweet_url.split('/')[-1].split('?')[0]
+
+
 def main(page_url, page_title):
     # set up clients for notion and twitter
     notion = NotionClient(token_v2=NOTION['token'])
