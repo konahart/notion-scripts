@@ -16,3 +16,7 @@ def main(page_url, page_title):
         types = {child.type: child for child in row.children}
         if "tweet" in types and "image" not in types:
             print(f"tweet: {types['tweet'].source}")
+
+
+if __name__ == "__main__":
+    main(NOTION["default_page_url"], NOTION["default_page_title"])

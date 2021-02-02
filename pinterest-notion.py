@@ -62,6 +62,4 @@ def main(board_id, board_name):
 
 
 if __name__ == "__main__":
-    board_id = "board id here"
-    board_name = "board name here"
-    main(board_id, board_name)
+    main(PINTEREST["default_board_id"], PINTEREST["default_board_name"])
