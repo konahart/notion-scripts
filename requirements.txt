@@ -1,2 +1,2 @@
 notion
-py3pin
+py3-pinterest # py3pin
