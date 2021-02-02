@@ -18,3 +18,10 @@ NOTION = {
     'default_page_url': 'OPTIONAL: DEFAULT PAGE URL HERE',
     'default_page_title': 'OPTIONAL: DEFAULT PAGE TITLE HERE'
 }
+
+TWITTER = {
+    'consumer_key': 'YOUR CONSUMER KEY HERE',
+    'consumer_secret': 'YOUR CONSUMER SECRET HERE',
+    'access_key': 'YOUR ACCESS KEY HERE',
+    'access_secret': 'YOUR ACCESS SECRET HERE'
+}
