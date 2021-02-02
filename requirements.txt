@@ -1,2 +1,3 @@
 notion
 py3-pinterest # py3pin
+tweepy
