@@ -30,7 +30,9 @@ def main(page_url, page_title):
         if "tweet" in types and "image" not in types:
             id = get_tweet_id_from_url(types['tweet'].source)
             tweet = twitter.get_status(id)
-            media = tweet.entities.get('media')
+            entities = getattr(tweet, "extended_entities", None) or getattr(
+                tweet, "entities", None)
+            media = entities.get('media')
             if media:
                 for image in media:
                     url = image['media_url_https']
