@@ -1,5 +1,6 @@
 import tweepy
 from notion.client import NotionClient
+from notion.block import ImageBlock
 
 from creds import NOTION, TWITTER
 
@@ -27,7 +28,14 @@ def main(page_url, page_title):
     for row in rows:
         types = {child.type: child for child in row.children}
         if "tweet" in types and "image" not in types:
-            print(f"tweet: {types['tweet'].source}")
+            id = get_tweet_id_from_url(types['tweet'].source)
+            tweet = twitter.get_status(id)
+            media = tweet.entities.get('media')
+            if media:
+                for image in media:
+                    url = image['media_url_https']
+                    newchild = row.children.add_new(ImageBlock)
+                    newchild.set_source_url(url)
 
 
 if __name__ == "__main__":
