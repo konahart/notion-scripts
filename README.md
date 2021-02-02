@@ -1,4 +1,6 @@
-# pinterest-notion
-Scripts for importing Pinterest boards into Notion
+# notion-scripts
+Scripts for augmenting Notion
+ - export Pinterest boards for import to Notion
+ - get embedded tweet text and images into Notion
 
-Currently just outputs the Pinterest pins into a csv file, which can then be imported into Notion. More to come.
+More to come.
