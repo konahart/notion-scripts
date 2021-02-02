@@ -1,7 +1,7 @@
 import csv
 from py3pin.Pinterest import Pinterest
 
-from creds import EMAIL, PASSWORD, USERNAME
+from creds import PINTEREST
 
 
 def get_board_pins(pinterest, board_id):
@@ -38,13 +38,16 @@ def pin_to_row(row, num):
         if img:
             pin['img_url'] = img.get('url')
     pin['created_at'] = num
-    if pin.get('title') or pin.get('url') or pin.get('description') or pin.get('img_url'):
+    if pin.get('title') or pin.get('url') or pin.get('description') or \
+            pin.get('img_url'):
         return pin
     return None
 
 
 def main(board_id, board_name):
-    pinterest = Pinterest(email=EMAIL, password=PASSWORD, username=USERNAME)
+    pinterest = Pinterest(email=PINTEREST['email'],
+                          password=PINTEREST['password'],
+                          username=PINTEREST['username'])
     pinterest.login()
     pins = get_board_pins(pinterest, board_id)
     pins = clean_pins(pins)

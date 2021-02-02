@@ -1,10 +1,10 @@
 from notion.client import NotionClient
 
-from creds import NOTION_TOKEN
+from creds import NOTION
 
 
 def main(page_url, page_title):
-    client = NotionClient(token_v2=NOTION_TOKEN)
+    client = NotionClient(token_v2=NOTION['token'])
     page = client.get_block(page_url)
     if page.title != page_title:
         print(
