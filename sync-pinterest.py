@@ -14,12 +14,15 @@ def get_board_pins(pinterest, board_id):
 
 
 def clean_pins(board):
-    pins = []
+    """
+        id : {pin}
+    """
+    pins = {}
     num = len(board) - 1
     for pin in board:
         pin = pin_to_row(pin, num)
         if pin:
-            pins.append(pin)
+            pins[pin['id']] = pin
         num -= 1
     return pins
 
