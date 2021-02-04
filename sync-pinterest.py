@@ -47,7 +47,15 @@ def pin_to_row(row, num):
     return None
 
 
-def main(board_id, board_name):
+def export_csv(board_name, pins):
+    with open(f'{board_name}.csv', 'w') as f:
+        csv_writer = csv.writer(f)
+        csv_writer.writerow(pins[0].keys())
+        for pin in pins:
+            csv_writer.writerow(pin.values())
+    print(f"Wrote pins to {board_name}.csv")
+
+
     pinterest = Pinterest(email=PINTEREST['email'],
                           password=PINTEREST['password'],
                           username=PINTEREST['username'])
