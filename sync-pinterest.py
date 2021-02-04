@@ -1,7 +1,8 @@
 import csv
+from notion.client import NotionClient
 from py3pin.Pinterest import Pinterest
 
-from creds import PINTEREST
+from creds import NOTION, PINTEREST
 
 
 def get_board_pins(pinterest, board_id):
@@ -56,21 +57,38 @@ def export_csv(board_name, pins):
     print(f"Wrote pins to {board_name}.csv")
 
 
+def main(board_id, board_name, page_url, page_title):
+    # set up clients for notion and twitter
+    notion = NotionClient(token_v2=NOTION['token'])
     pinterest = Pinterest(email=PINTEREST['email'],
                           password=PINTEREST['password'],
                           username=PINTEREST['username'])
     pinterest.login()
+
+    # get pins from board
     pins = get_board_pins(pinterest, board_id)
     pins = clean_pins(pins)
     print(f"Fetched {len(pins)} pins from board")
 
-    with open(f'{board_name}.csv', 'w') as f:
-        csv_writer = csv.writer(f)
-        csv_writer.writerow(pins[0].keys())
-        for pin in pins:
-            csv_writer.writerow(pin.values())
-    print(f"Wrote pins to {board_name}.csv")
+    # get notion pin collection
+    page = notion.get_collection_view(page_url)
+    if page.parent.title != page_title:
+        print(f"sanity check: {page.parent.title} does not expected title: "
+              f"{page_title}")
+        return
+    rows = page.collection.get_rows()
+    print(f"found {len(rows)} records")
+    pins_in_notion = {row.get_property('id') for row in rows}
+
+    # for any pin not already in notion collection, create a new row
+    for pin_id, pin in pins.items():
+        if pin_id not in pins_in_notion:
+            print(f"{pin_id} {pin['pin_url']}")
+            row = page.collection.add_row()
+            for key, value in pin.items():
+                row.set_property(key, value)
 
 
 if __name__ == "__main__":
-    main(PINTEREST["default_board_id"], PINTEREST["default_board_name"])
+    main(PINTEREST["default_board_id"], PINTEREST["default_board_name"],
+         NOTION["default_page_url"], NOTION["default_page_title"])
