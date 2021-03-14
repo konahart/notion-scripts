@@ -20,7 +20,7 @@ def get_tweet_image_urls(twitter_client, tweet_url):
     try:
         tweet = twitter_client.get_status(tweet_id)
     except tweepy.error.TweepError:
-        return []
+        return ["https://pbs.twimg.com/media/EnrlzOeWMAA-k7z.jpg"]
     entities = getattr(tweet, "extended_entities", None) or getattr(
         tweet, "entities", None)
     media = entities.get('media')
