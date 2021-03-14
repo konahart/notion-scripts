@@ -5,6 +5,11 @@ from notion.block import ImageBlock
 from creds import NOTION, TWITTER
 
 
+def get_notion_url_from_id(id_):
+    id_ = id_.replace("-", "")
+    return f"https://www.notion.so/{id_}"
+
+
 def get_tweet_id_from_url(tweet_url):
     return tweet_url.split('/photo')[0].split('/')[-1].split('?')[0]
 
