@@ -47,7 +47,7 @@ def main(page_url, page_title):
         return
     rows = page.collection.get_rows()
     print(f"found {len(rows)} records")
-    new_rows = []
+    new_rows = 0
     for row in rows:
         types = {child.type: child for child in row.children}
         if "tweet" in types and "image" not in types:
@@ -58,20 +58,23 @@ def main(page_url, page_title):
                     newchild = row.children.add_new(ImageBlock)
                     newchild.set_source_url(url)
                 else:
-                    new_rows.append((row, url))
-    print(f"{len(new_rows)} new rows to create")
-    for (row, imgurl) in new_rows:
-        new_row = page.collection.add_row()
-        new_row.url = row.url
-        new_row.created = row.created
-        new_row.tags = row.tags
-        newchild = new_row.children.add_new(EmbedBlock)
-        try:
-            newchild.set_source_url(new_row.url)
-        except KeyError:
-            pass
-        newchild = new_row.children.add_new(ImageBlock)
-        newchild.set_source_url(imgurl)
+                    new_row = page.collection.add_row()
+                    new_row.url = row.url
+                    new_row.created = row.created
+                    new_row.tags = row.tags
+                    newchild = new_row.children.add_new(EmbedBlock)
+                    try:
+                        newchild.set_source_url(new_row.url)
+                    except KeyError:
+                        pass
+                    newchild = new_row.children.add_new(ImageBlock)
+                    try:
+                        newchild.set_source_url(url)
+                    except KeyError:
+                        pass
+                    new_rows += 1
+                    print(f"new row {new_rows}")
+    print(f"{new_rows} new rows created")
 
 
 if __name__ == "__main__":
