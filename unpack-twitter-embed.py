@@ -12,7 +12,10 @@ def get_tweet_id_from_url(tweet_url):
 def get_tweet_image_urls(twitter_client, tweet_url):
     tweet_id = get_tweet_id_from_url(tweet_url)
     print(f"{tweet_url} - {tweet_id}")
-    tweet = twitter_client.get_status(tweet_id)
+    try:
+        tweet = twitter_client.get_status(tweet_id)
+    except tweepy.error.TweepError:
+        return []
     entities = getattr(tweet, "extended_entities", None) or getattr(
         tweet, "entities", None)
     media = entities.get('media')
